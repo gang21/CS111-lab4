@@ -281,11 +281,11 @@ void write_block_bitmap(int fd) {
 			errno_exit("write");                                   
 		}
 	}
-	for(int i = 24; i < 1024; i++) {
-		if (write(fd, 1, 1) != 1) {                         
-			errno_exit("write");                                   
-		}
-	}
+	// for(int i = 24; i < 1024; i++) {
+	// 	if (write(fd, 1, 1) != 1) {                         
+	// 		errno_exit("write");                                   
+	// 	}
+	// }
 	
 
 }
