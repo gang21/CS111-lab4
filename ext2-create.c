@@ -276,7 +276,7 @@ void write_block_bitmap(int fd) {
 		errno_exit("lseek");
 	}
 
-	write(fd, 0xFFFF, 16);
+	write(fd, 0x7FFF, 16);
 
 }
 
