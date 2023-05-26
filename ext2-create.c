@@ -196,9 +196,6 @@ void write_superblock(int fd) {
 	u32 current_time = get_current_time();
 
 	struct ext2_superblock superblock = {0};
-
-	/* These are intentionally incorrectly set as 0, you should set them
-	   correctly and delete this comment */
 	superblock.s_inodes_count      = NUM_INODES;
 	superblock.s_blocks_count      = NUM_BLOCKS;
 	superblock.s_r_blocks_count    = 0; /* Leave this as 0 */
@@ -225,8 +222,6 @@ void write_superblock(int fd) {
 	superblock.s_def_resuid        = 0; /* root */
 	superblock.s_def_resgid        = 0; /* root */
 
-	/* You can leave everything below this line the same, delete this
-	   comment when you're done the lab */
 	superblock.s_uuid[0] = 0x5A;
 	superblock.s_uuid[1] = 0x1E;
 	superblock.s_uuid[2] = 0xAB;
@@ -260,8 +255,6 @@ void write_block_group_descriptor_table(int fd) {
 
 	struct ext2_block_group_descriptor block_group_descriptor = {0};
 
-	/* These are intentionally incorrectly set as 0, you should set them
-	   correctly and delete this comment */
 	block_group_descriptor.bg_block_bitmap = BLOCK_BITMAP_BLOCKNO;
 	block_group_descriptor.bg_inode_bitmap = INODE_BITMAP_BLOCKNO;
 	block_group_descriptor.bg_inode_table = INODE_TABLE_BLOCKNO;
@@ -277,7 +270,24 @@ void write_block_group_descriptor_table(int fd) {
 
 void write_block_bitmap(int fd) {
 	/* This is all you */
-	/* 8192 bytes but only have to write 1023 bytes for the blocks, mark the rest as 1s */
+	/* 8192 bits but only have to write 1023 bytes for the blocks, mark the rest as 1s */
+	off_t off = lseek(fd, BLOCK_OFFSET(3), SEEK_SET);
+	if (off == -1) {
+		errno_exit("lseek");
+	}
+
+	for(int i = 0; i < 24; i++) {
+		if (write(fd, 0, 1) != 1) {                         
+			errno_exit("write");                                   
+		}
+	}
+	for(int i = 24; i < 1024; i++) {
+		if (write(fd, 1, 1) != 1) {                         
+			errno_exit("write");                                   
+		}
+	}
+	
+
 }
 
 void write_inode_bitmap(int fd) {
