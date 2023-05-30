@@ -290,7 +290,7 @@ void write_block_bitmap(int fd) {
 
 void write_inode_bitmap(int fd) {
 	/* This is all you */
-	off_t off = lseek(fd, BLOCK_OFFSET(3), SEEK_SET);
+	off_t off = lseek(fd, BLOCK_OFFSET(4), SEEK_SET);
 	if (off == -1) {
 		errno_exit("lseek");
 	}
