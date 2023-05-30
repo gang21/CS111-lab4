@@ -289,7 +289,7 @@ void write_block_bitmap(int fd) {
 		buf[i] = 1;
 	}
 	int size = sizeof(buf);
-	if (write(off, &buf, size) != size) {                        
+	if (write(fd, &buf, size) != size) {                        
 		errno_exit("write");                                   
 	} 
 	
