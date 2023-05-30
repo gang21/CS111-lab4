@@ -269,8 +269,6 @@ void write_block_group_descriptor_table(int fd) {
 }
 
 void write_block_bitmap(int fd) {
-	/* This is all you */
-	/* 8192 bits but only have to write 1023 bytes for the blocks, mark the rest as 1s */
 	off_t off = lseek(fd, BLOCK_OFFSET(3), SEEK_SET);
 	if (off == -1) {
 		errno_exit("lseek");
@@ -288,12 +286,27 @@ void write_block_bitmap(int fd) {
 	if (write(fd, &buf, size) != size) {                        
 		errno_exit("write");                                   
 	} 
-	
-
 }
 
 void write_inode_bitmap(int fd) {
 	/* This is all you */
+	off_t off = lseek(fd, BLOCK_OFFSET(3), SEEK_SET);
+	if (off == -1) {
+		errno_exit("lseek");
+	}
+	u8 buf[1024];
+	for (int i = 0; i < 1024; i++) {
+		buf[i] = 0;
+	}
+	buf[0] = 0x0F;
+	buf[127] = 0x80;
+	for(int i = 128; i < 1024; i++) {
+		buf[i] = 0xFF;
+	}
+	int size = sizeof(buf);
+	if (write(fd, &buf, size) != size) {                        
+		errno_exit("write");                                   
+	} 
 }
 
 void write_inode(int fd, u32 index, struct ext2_inode *inode) {
