@@ -300,7 +300,9 @@ void write_inode_bitmap(int fd) {
 	for (int i = 0; i < 1024; i++) {
 		buf[i] = 0;
 	}
-	buf[0] = 0x0F;
+	buf[0] = 0xFF;
+	buf[1] = 0xFF;
+	buf[2] = 0x7F;
 	buf[127] = 0x80;
 	for(int i = 128; i < 1024; i++) {
 		buf[i] = 0xFF;
