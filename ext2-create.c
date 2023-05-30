@@ -276,8 +276,8 @@ void write_block_bitmap(int fd) {
 		errno_exit("lseek");
 	}
 	u8 buf[8192];
-	for(int i = 0; i < 2; i++) {
-		buf[i] = 0xFF;
+	for(int i = 0; i < 1; i++) {
+		buf[i] = 0x5;
 	}
 	for(int i = 2; i < 8; i++) {
 		buf[i] = 0;
