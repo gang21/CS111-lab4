@@ -407,7 +407,7 @@ void write_inode_table(int fd) {
 	hello_inode.i_gid = 1000;
 	hello_inode.i_links_count = 1;
 	hello_inode.i_blocks = 2; /* These are oddly 512 blocks */
-	hello_inode.i_block[0] = "Hello world\n";
+	hello_inode.i_block[0] = HELLO_WORLD_FILE_BLOCKNO;
 	write_inode(fd, HELLO_INO, &hello_inode);
 }
 
