@@ -275,7 +275,7 @@ void write_block_bitmap(int fd) {
 	if (off == -1) {
 		errno_exit("lseek");
 	}
-	u8 buf[1024];
+	int buf[1024];
 	for (int i = 0; i < 5; i++) {
 		buf[i] = 1;
 	}
