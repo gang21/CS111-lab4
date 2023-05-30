@@ -275,8 +275,20 @@ void write_block_bitmap(int fd) {
 	if (off == -1) {
 		errno_exit("lseek");
 	}
-
-	write(fd, 0x7FFF, 16);
+	u8 buf[1024];
+	for (int i = 0; i < 5; i++) {
+		buf[i] = 1;
+	}
+	for (int i = 5; i < 24; i++) {
+		buf[i] = 0;
+	}
+	for(int j = 24; j < 1024; j++) {
+		buf[j] = 1;
+	}
+	int size = 1024;
+	if (write(fd, &buf, size) != size) {                        
+		errno_exit("write");                                   
+	} 
 
 }
 
