@@ -280,6 +280,8 @@ void write_block_bitmap(int fd) {
 		buf[i] = 0;
 	}
 	buf[0] = 0x8F;
+	buf[1] = 0x00;
+	buf[2] = 0x00;
 	for(int i = 3; i < 1024; i++) {
 		buf[i] = 0xFF;
 	}
