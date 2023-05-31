@@ -350,9 +350,6 @@ void write_inode_table(int fd) {
 	lost_and_found_inode.i_block[0] = LOST_AND_FOUND_DIR_BLOCKNO;
 	write_inode(fd, LOST_AND_FOUND_INO, &lost_and_found_inode);
 
-	/* You should add your 3 other inodes in this function and delete this
-	   comment */
-
 	struct ext2_inode root = {0};
 	root.i_mode = EXT2_S_IFDIR
 	                              | EXT2_S_IRUSR
@@ -407,7 +404,7 @@ void write_inode_table(int fd) {
 	hello_inode.i_gid = 1000;
 	hello_inode.i_links_count = 1;
 	// hello_inode.i_blocks = 1; /* These are oddly 512 blocks */
-	// hello_inode.i_block[0] = HELLO_WORLD_FILE_BLOCKNO;
+	hello_inode.i_block[0] = "hello-world";
 	write_inode(fd, HELLO_INO, &hello_inode);
 }
 
