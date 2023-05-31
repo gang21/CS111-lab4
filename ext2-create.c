@@ -404,9 +404,9 @@ void write_inode_table(int fd) {
 	hello_inode.i_gid = 1000;
 	hello_inode.i_links_count = 1;
 	hello_inode.i_blocks = 0; /* These are oddly 512 blocks */
-	hello_inode.i_block[0] = 0x6c6c6568;
-	hello_inode.i_block[1] = 0x6f772d6f;
-	hello_inode.i_block[2] = 0x00646c72;
+	// hello_inode.i_block[0] = 0x6c6c6568;
+	// hello_inode.i_block[1] = 0x6f772d6f;
+	// hello_inode.i_block[2] = 0x00646c72;
 	write_inode(fd, HELLO_INO, &hello_inode);
 }
 
