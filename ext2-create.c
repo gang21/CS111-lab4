@@ -260,7 +260,7 @@ void write_block_group_descriptor_table(int fd) {
 	block_group_descriptor.bg_inode_table = INODE_TABLE_BLOCKNO;
 	block_group_descriptor.bg_free_blocks_count = NUM_FREE_BLOCKS;
 	block_group_descriptor.bg_free_inodes_count = NUM_FREE_INODES;
-	block_group_descriptor.bg_used_dirs_count = 2; //FIXME
+	block_group_descriptor.bg_used_dirs_count = 2; 
 
 	ssize_t size = sizeof(block_group_descriptor);
 	if (write(fd, &block_group_descriptor, size) != size) {
@@ -407,7 +407,6 @@ void write_inode_table(int fd) {
 	hello_inode.i_block[0] = 0x6c6c6568;
 	hello_inode.i_block[1] = 0x6f772d6f;
 	hello_inode.i_block[2] = 0x00646c72;
-
 	write_inode(fd, HELLO_INO, &hello_inode);
 }
 
@@ -485,6 +484,18 @@ void write_lost_and_found_dir_block(int fd) {
 
 void write_hello_world_file_block(int fd) {
 	/* This is all you */
+	off_t off = BLOCK_OFFSET(HELLO_WORLD_FILE_BLOCKNO);
+	off = lseek(fd, off, SEEK_SET);
+	if (off == -1) {
+		errno_exit("lseek");
+	}
+
+	char hello[13] = "Hello world\n";
+	ssize_t size = sizeof(hello);
+	if (write(fd, hello, size) != size) {
+		errno_exit("write");
+	}
+
 }
 
 int main(int argc, char *argv[]) {
