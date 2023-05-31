@@ -299,10 +299,10 @@ void write_inode_bitmap(int fd) {
 	u8 buf[1024];
 	buf[0] = 0xFF;
 	buf[1] = 0x1F;
-	for (int i = 2; i < 127; i++) {
+	for (int i = 2; i < 128; i++) {
 		buf[i] = 0;
 	}
-	buf[127] = 0x80;
+	// buf[127] = 0x80;
 	for(int i = 128; i < 1024; i++) {
 		buf[i] = 0xFF;
 	}
