@@ -366,7 +366,7 @@ void write_inode_table(int fd) {
 	root.i_mtime = current_time;
 	root.i_dtime = 0;
 	root.i_gid = 0;
-	root.i_links_count = 2;
+	root.i_links_count = 3;
 	root.i_blocks = 2; /* These are oddly 512 blocks */
 	root.i_block[0] = ROOT_DIR_BLOCKNO;
 	write_inode(fd, EXT2_ROOT_INO, &root);
@@ -378,13 +378,13 @@ void write_inode_table(int fd) {
 	                              | EXT2_S_IRGRP
 	                              | EXT2_S_IROTH;
 	hello_world_inode.i_uid = 1000;
-	hello_world_inode.i_size = 11;
+	hello_world_inode.i_size = 12;
 	hello_world_inode.i_atime = current_time;
 	hello_world_inode.i_ctime = current_time;
 	hello_world_inode.i_mtime = current_time;
 	hello_world_inode.i_dtime = 0;
 	hello_world_inode.i_gid = 1000;
-	hello_world_inode.i_links_count = 2;
+	hello_world_inode.i_links_count = 1;
 	hello_world_inode.i_blocks = 2; /* These are oddly 512 blocks */
 	hello_world_inode.i_block[0] = HELLO_WORLD_FILE_BLOCKNO;
 	write_inode(fd, HELLO_WORLD_INO, &hello_world_inode);
@@ -396,15 +396,18 @@ void write_inode_table(int fd) {
 	                              | EXT2_S_IRGRP
 	                              | EXT2_S_IROTH;
 	hello_inode.i_uid = 1000;
-	hello_inode.i_size = 12;
+	hello_inode.i_size = 11;
 	hello_inode.i_atime = current_time;
 	hello_inode.i_ctime = current_time;
 	hello_inode.i_mtime = current_time;
 	hello_inode.i_dtime = 0;
 	hello_inode.i_gid = 1000;
 	hello_inode.i_links_count = 1;
-	// hello_inode.i_blocks = 1; /* These are oddly 512 blocks */
-	hello_inode.i_block[0] = "hello-world";
+	hello_inode.i_blocks = 1; /* These are oddly 512 blocks */
+	hello_inode.i_block[0] = 0x6c6c6568;
+	hello_inode.i_block[1] = 0x6f772d6f;
+	hello_inode.i_block[2] = 0x00646c72;
+
 	write_inode(fd, HELLO_INO, &hello_inode);
 }
 
