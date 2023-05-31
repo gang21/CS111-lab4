@@ -297,16 +297,16 @@ void write_inode_bitmap(int fd) {
 		errno_exit("lseek");
 	}
 	u8 buf[1024];
-	for (int i = 0; i < 1024; i++) {
-		buf[i] = 0;
-	}
 	buf[0] = 0xFF;
 	buf[1] = 0x1F;
+	for (int i = 2; i < 127; i++) {
+		buf[i] = 0;
+	}
 	buf[127] = 0x80;
 	for(int i = 128; i < 1024; i++) {
 		buf[i] = 0xFF;
 	}
-	int size = sizeof(buf);
+	ssize_t size = sizeof(buf);
 	if (write(fd, &buf, size) != size) {                        
 		errno_exit("write");                                   
 	} 
