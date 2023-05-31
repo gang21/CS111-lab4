@@ -404,9 +404,9 @@ void write_inode_table(int fd) {
 	hello_inode.i_gid = 1000;
 	hello_inode.i_links_count = 1;
 	hello_inode.i_blocks = 0; /* These are oddly 512 blocks */
-	// hello_inode.i_block[0] = 0x6c6c6568;
-	// hello_inode.i_block[1] = 0x6f772d6f;
-	// hello_inode.i_block[2] = 0x00646c72;
+	hello_inode.i_block[0] = 0x6c6c6568;
+	hello_inode.i_block[1] = 0x6f772d6f;
+	hello_inode.i_block[2] = 0x00646c72;
 	write_inode(fd, HELLO_INO, &hello_inode);
 }
 
@@ -414,7 +414,8 @@ void write_root_dir_block(int fd) {
 	/* This is all you */
 	off_t off = BLOCK_OFFSET(ROOT_DIR_BLOCKNO);
 	off = lseek(fd, off, SEEK_SET);
-	if (off == -1) {
+	if (off == -1)
+	{
 		errno_exit("lseek");
 	}
 
@@ -448,7 +449,7 @@ void write_root_dir_block(int fd) {
 	dir_entry_set(hello_entry, HELLO_INO, "hello");
 	dir_entry_write(hello_entry, fd);
 
-	bytes_remaining -= hello_world_entry.rec_len;
+	bytes_remaining -= hello_entry.rec_len;
 
 	struct ext2_dir_entry fill_entry = {0};
 	fill_entry.rec_len = bytes_remaining;
