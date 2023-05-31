@@ -292,24 +292,30 @@ void write_block_bitmap(int fd) {
 
 void write_inode_bitmap(int fd) {
 	/* This is all you */
+	/* This is all you */
 	off_t off = lseek(fd, BLOCK_OFFSET(4), SEEK_SET);
-	if (off == -1) {
+	if (off == -1)
+	{
 		errno_exit("lseek");
 	}
-	u8 buf[1024];
-	buf[0] = 0xFF;
-	buf[1] = 0x1F;
-	for (int i = 2; i < 128; i++) {
-		buf[i] = 0;
+	u32 buffer[256];
+	buffer[0] = 0x00001FFF;
+
+	for (int i = 1; i < 4; i++)
+	{
+		buffer[i] = 0x00000000;
 	}
-	// buf[127] = 0x80;
-	for(int i = 128; i < 1024; i++) {
-		buf[i] = 0xFF;
+
+	for (int i = 4; i < 256; i++)
+	{
+		buffer[i] = 0xFFFFFFFF;
 	}
-	ssize_t size = sizeof(buf);
-	if (write(fd, &buf, size) != size) {                        
-		errno_exit("write");                                   
-	} 
+
+	ssize_t size = sizeof(buffer);
+	if (write(fd, buffer, size) != size)
+	{
+		errno_exit("write");
+	}
 }
 
 void write_inode(int fd, u32 index, struct ext2_inode *inode) {
